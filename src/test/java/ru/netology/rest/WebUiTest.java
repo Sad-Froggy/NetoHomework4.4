@@ -35,7 +35,7 @@ public class WebUiTest {
         $("button.button").click();
         $(".notification__content")
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + inputDate));
+                .shouldHave(Condition.text("какой-то текст"));
     }
 
     @Test
@@ -57,6 +57,7 @@ public class WebUiTest {
     public void shouldFailIfCityIsEmpty() {
         Selenide.open(APP_ADDRESS);
         String inputDate = getMinDate(PLUS_DAYS);
+        $("[data-test-id='city'] input").setValue("Смоленск");
         $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         $("[data-test-id='date'] input").setValue(inputDate);
         $("[data-test-id='name'] input").setValue("Лягушеслав Болотин");
@@ -74,7 +75,7 @@ public class WebUiTest {
         String inputDate = getMinDate(PLUS_DAYS);
         $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         $("[data-test-id='date'] input").setValue(inputDate);
-        $("[data-test-id='name'] input").setValue("Froggy Swampin");
+        $("[data-test-id='name'] input").setValue("Лягушеслав Болотин");
         $("[data-test-id='phone'] input").setValue("+79999999999");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
@@ -89,6 +90,7 @@ public class WebUiTest {
         String inputDate = getMinDate(PLUS_DAYS);
         $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         $("[data-test-id='date'] input").setValue(inputDate);
+        $("[data-test-id='name'] input").setValue("Лягушеслав Болотин");
         $("[data-test-id='phone'] input").setValue("+79999999999");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
@@ -104,7 +106,7 @@ public class WebUiTest {
         $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         $("[data-test-id='date'] input").setValue(inputDate);
         $("[data-test-id='name'] input").setValue("Лягушеслав Болотин");
-        $("[data-test-id='phone'] input").setValue("+79");
+        $("[data-test-id='phone'] input").setValue("+79999999999");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='phone']").$(By.className("input__sub"))
@@ -119,6 +121,7 @@ public class WebUiTest {
         $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         $("[data-test-id='date'] input").setValue(inputDate);
         $("[data-test-id='name'] input").setValue("Лягушеслав Болотин");
+        $("[data-test-id='phone'] input").setValue("+79");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='phone']").$(By.className("input__sub"))
@@ -137,7 +140,6 @@ public class WebUiTest {
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='date']").$(By.className("input__sub"))
-                .shouldHave(Condition.text("Заказ на выбранную дату невозможен"));
+                .shouldHave(Condition.text("какой-то текст"));
     }
-
 }
