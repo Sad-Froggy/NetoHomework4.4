@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
-import java.nio.file.StandardWatchEventKinds;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static com.codeborne.selenide.Selenide.$;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WebUiTest {
 
@@ -23,7 +23,7 @@ public class WebUiTest {
     }
 
     @Test
-    public void shouldSuccessfullySendMeetingRequest() {
+    public void shouldSuccessfullySendRequest() {
         Selenide.open(APP_ADDRESS);
         $("[data-test-id='city'] input").setValue("Смоленск");
         String inputDate = getMinDate(PLUS_DAYS);
@@ -39,7 +39,7 @@ public class WebUiTest {
     }
 
     @Test
-    public void shouldFailIfCityIsNotValid() {
+    public void shouldFailIfCityNotValid() {
         Selenide.open(APP_ADDRESS);
         $("[data-test-id='city'] input").setValue("СтранныйГород");
         String inputDate = getMinDate(PLUS_DAYS);
@@ -68,7 +68,7 @@ public class WebUiTest {
     }
 
     @Test
-    public void shouldFailIfNameIsNotValid() {
+    public void shouldFailIfNameContainIllegalSymbols() {
         Selenide.open(APP_ADDRESS);
         $("[data-test-id='city'] input").setValue("Смоленск");
         String inputDate = getMinDate(PLUS_DAYS);
@@ -97,7 +97,7 @@ public class WebUiTest {
     }
 
     @Test
-    public void shouldFailIfPhoneIsNotValid() {
+    public void shouldFailIfPhoneTooShort() {
         Selenide.open(APP_ADDRESS);
         $("[data-test-id='city'] input").setValue("Смоленск");
         String inputDate = getMinDate(PLUS_DAYS);
@@ -139,5 +139,18 @@ public class WebUiTest {
         $("[data-test-id='date']").$(By.className("input__sub"))
                 .shouldHave(Condition.text("Заказ на выбранную дату невозможен"));
     }
+
+    @Test
+    void shouldFailIfCheckboxIsUnchecked() {
+        Selenide.open(APP_ADDRESS);
+        $("[data-test-id='city'] input").setValue("Смоленск");
+        String inputDate = getMinDate(PLUS_DAYS);
+        $("[data-test-id='date'] input").setValue(inputDate);
+        $("[data-test-id='name'] input").setValue("Лягушеслав Болотин");
+        $("[data-test-id='phone'] input").setValue("+79999999999");
+        $("button.button").click();
+        assertTrue($("[data-test-id='agreement'].input_invalid").isDisplayed());
+    }
+
 
 }
